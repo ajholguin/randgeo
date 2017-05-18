@@ -4,6 +4,9 @@
 #' @param count (integer/numeric) number of Polygons. Default: 1
 #' @param num_vertices (integer/numeric) how many coordinates each
 #' polygon will contain. Default: 10
+#' @param min_radial_length (integer/numeric) minimum distance that a vertex
+#' can reach out of the center of the polygon. Units are in degrees latitude
+#' (Approximately 69 miles or 111 km). Default: 0
 #' @param max_radial_length (integer/numeric) maximum distance that a vertex
 #' can reach out of the center of the polygon. Units are in degrees latitude
 #' (Approximately 69 miles or 111 km). Default: 10
@@ -16,8 +19,8 @@
 #' geo_polygon()
 #' geo_polygon(10)
 #' geo_polygon(bbox = c(50, 50, 60, 60))
-geo_polygon <- function(count = 1, num_vertices = 10, max_radial_length = 10,
-                       bbox = NULL) {
+geo_polygon <- function(count = 1, num_vertices = 10, min_radial_length = 0,
+                        max_radial_length = 10, bbox = NULL) {
   assert(count, c('numeric', 'integer'))
   assert(num_vertices, c('numeric', 'integer'))
   assert(max_radial_length, c('numeric', 'integer'))
@@ -28,7 +31,8 @@ geo_polygon <- function(count = 1, num_vertices = 10, max_radial_length = 10,
   for (i in seq_len(count)) {
     hub <- position(bbox)
     vertices <- list()
-    circle_distances <- stats::runif(num_vertices) * max_radial_length
+    circle_distances <- stats::runif(num_vertices, min = min_radial_length,
+                                     max = max_radial_length)
     circle_bearings <- sort(stats::runif(num_vertices) * 2 * pi)
     vertices <- mapply(destination,
                        distance = circle_distances,

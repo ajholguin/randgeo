@@ -4,6 +4,9 @@
 #' @param count (integer/numeric) number of Polygons. Default: 1
 #' @param num_vertices (integer/numeric) how many coordinates each
 #' polygon will contain. Default: 10
+#' @param min_radial_length (integer/numeric) minimum distance that a vertex
+#' can reach out of the center of the polygon. Units are in degrees latitude
+#' (Approximately 69 miles or 111 km). Default: 0
 #' @param max_radial_length (integer/numeric) maximum distance that a vertex
 #' can reach out of the center of the polygon. Units are in degrees latitude
 #' (Approximately 69 miles or 111 km). Default: 10
@@ -19,10 +22,11 @@
 #' wkt_polygon(num_vertices = 100)
 #' wkt_polygon(10)
 #' wkt_polygon(bbox = c(50, 50, 60, 60))
-wkt_polygon <- function(count = 1, num_vertices = 10, max_radial_length = 10,
-                        bbox = NULL, fmt = 7) {
+wkt_polygon <- function(count = 1, num_vertices = 10, min_radial_length = 0,
+                        max_radial_length = 10, bbox = NULL, fmt = 7) {
   assert(fmt, c('numeric', 'integer'))
-  res <- geo_polygon(count, num_vertices, max_radial_length, bbox)
+  res <- geo_polygon(count, num_vertices, min_radial_length,
+                     max_radial_length, bbox)
   unlist(
     lapply(res$features, function(z)
       to_wkt_poly(z$geometry$coordinates[[1]], fmt))

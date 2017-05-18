@@ -4,14 +4,18 @@
 \alias{geo_polygon}
 \title{Random GeoJSON polygon}
 \usage{
-geo_polygon(count = 1, num_vertices = 10, max_radial_length = 10,
-  bbox = NULL)
+geo_polygon(count = 1, num_vertices = 10, min_radial_length = 0,
+  max_radial_length = 10, bbox = NULL)
 }
 \arguments{
 \item{count}{(integer/numeric) number of Polygons. Default: 1}
 
 \item{num_vertices}{(integer/numeric) how many coordinates each
 polygon will contain. Default: 10}
+
+\item{min_radial_length}{(integer/numeric) minimum distance that a vertex
+can reach out of the center of the polygon. Units are in degrees latitude
+(Approximately 69 miles or 111 km). Default: 0}
 
 \item{max_radial_length}{(integer/numeric) maximum distance that a vertex
 can reach out of the center of the polygon. Units are in degrees latitude
